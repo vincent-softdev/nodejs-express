@@ -1,4 +1,5 @@
 const productService = require('../services/productService')
+const fakeApiService = require('../services/fakeApiService')
 
 const productController = (req, res, next) => {
     try {
@@ -19,4 +20,14 @@ const productController = (req, res, next) => {
     }
 }
 
-module.exports = productController;
+const getFakeProductsController = (req, res, next) => {
+    fakeApiService.fetchProducts((error, result) => {
+        if (error) {
+            next(error)
+        } else {
+            res.json({success: true, data: result})
+        }
+    })
+}
+
+module.exports = {productController, getFakeProductsController};
